@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.deletion import CASCADE
 from django.utils import timezone
 # Create your models here.
 
@@ -85,11 +86,10 @@ class Column(models.Model):
 # 캐시 DB
 class Cash(models.Model):
     payer = models.CharField(max_length=256, verbose_name='입금자명') #입금자명
-    user_id = models.OneToOneField(User_info, db_column="user_id", on_delete=models.CASCADE, verbose_name='유저 ID') #유저 아이디
+    user_id = models.ForeignKey(User_info,on_delete=CASCADE,db_column="user_id", verbose_name='유저 ID') #유저 아이디
     cash_charge = models.IntegerField(default=0, verbose_name='충전 금액')
     cash_at = models.DateTimeField(auto_now_add=True) #충전날짜, 시간
     success_true_false =  models.BooleanField(default=False)
-    
     def __str__(self):
         return self.payer
 
