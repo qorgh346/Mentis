@@ -43,17 +43,17 @@
 				<!-- Nav -->
 					<nav id="nav">
 						<ul class="links">
-							<li class="active"><a href="index.html">멘티스란?</a></li>
-							<li><a href="generic.html">멘토 찾기</a></li>
-							<li><a href="elements.html">내 서랍</a></li>
+							<li class="active"><a href="{% url 'index' %}">멘티스란?</a></li>
+							<li><a href="{% url 'mentoring' %}">멘토 찾기</a></li>
+							<li><a href="{% url 'mypage' %}">내 서랍</a></li>
 						</ul>
 
 									
 													
 						<ul class="icons">
 
-							<li><a href="#"><i class="fas fa-user-plus"></i></a></li>
-							<li><a href="#"><i class="fas fa-sign-in-alt"></i></a></li>
+							<li><a href="{% url 'login' %}"><i class="fas fa-user-plus"></i></a></li>
+							<li><a href="{% url 'signup' %}"><i class="fas fa-sign-in-alt"></i></a></li>
 						</ul>
 					</nav>
 
