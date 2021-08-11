@@ -52,14 +52,14 @@ class Lecture(models.Model):
 
 # 세부 강의 DB: 기본키, 강의 ID(외래키), 영상 제목, 영상 URL
 class DetailLecture(models.Model):
-    lecture_title = models.ForeignKey(Mentor_info,
+    lecture_title = models.ForeignKey(Lecture,
                                 on_delete=models.CASCADE,
                                 db_column="lecture_title",
-                                verbose_name='강의 이름')
+                                verbose_name='강의 이름' )
     video_title = models.CharField(max_length=256,
                                    verbose_name='영상 제목')
-    url = models.CharField(max_length=256,
-                           verbose_name='url')
+    
+    url = models.TextField( verbose_name='url')
     
     def __str__(self):
         return self.video_title

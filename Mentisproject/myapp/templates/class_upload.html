@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+<SCRIPT LANGUAGE="JavaScript">
+        cnt=0;
+        function input_append(ff){
+          cnt++;
+          app = document.getElementById("append");
+          app.innerHTML += cnt +"<input name=title"+cnt+" type=text placeholder=영상제목 />"+"<br>"+
+          "<textarea name=youtube_iframe"+cnt+" placeholder=복사하신내용을입력하세요></textarea>" +"<br><br><br><br>";
+        
+          document.getElementById("total").value = cnt;
+        }
+        
+
+        function input_result(ff){
+          
+          alert(cnt);
+          app = document.getElementById("append");
+          app.innerHTML += "<input name=total type=text value="+cnt+" />"
+        }
+        </SCRIPT>
+</head>
+
+<body>
+    <h1>강의 업로드 하는 곳 입니다.</h1>
+    <a href="https://www.youtube.com/">유튜브</a>
+    <br><br><br><br>
+    <form action="{% url 'class_upload' %}" method="POST">
+        {% csrf_token %}
+        <input type="button" value="강의 영상 추가" onclick="input_append(this.form)">
+         
+        <div id="append"></div>
+        <input type="hidden" id="total" name="total" value=0 >
+        <button>제출하기</button>
+      </form>
+    </script>
+</body>
+
+</html>

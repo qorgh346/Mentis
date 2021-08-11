@@ -1,6 +1,7 @@
+
 from django.shortcuts import redirect, render,HttpResponse
 from .models import User_info,Menti_info,Cash
-from mentoringapp.models import FavouriteLecture,Mentor_info,LectureList
+from mentoringapp.models import FavouriteLecture,Mentor_info,LectureList,DetailLecture,Lecture
 from django.urls import reverse
 # Create your views here.
 
@@ -119,7 +120,61 @@ def mylecture(request): # My강의
     return render(request,"myclass.html",data)
 
 
+def class_upload(request):
+    #현재 로그인 한 사람이 누구인지 체크
+    user_temp = request.session.get('temp') # 'tony'
+    user = User_info.objects.get(user_id='123') 
+    #만약에 멘토 --> 이 조건은 class_upload.html 안에서 if문으로 구현하기.
+    mento =  Mentor_info.objects.get(user_info_id = user.pk) #멘토를 찾는다.
 
+    #멘토가 등록한 강의중 데이터베이스 라는 강의를 가져온다. 
+    #이 부분은 따로 변경해야된다. 세부 강의의 정보를 매게변수로 받아야함.
+    print('멘토의 pk = ',mento.pk)
+    lec = Lecture.objects.get(mentor_id = mento.pk,lecture_title='데이터베이스')
+    print('lec = ',lec)
+    if request.method == "POST": #제출하기 버튼을 눌렀을 때
+        total_input_data = int(request.POST.get('total'))
+        for i in range(1,total_input_data+1):
+            detail_lec = DetailLecture( #데이터베이스 라는 강좌의 전체 강의를 업로드.
+            lecture_title = lec,
+            video_title = request.POST.get('title'+str(i)),
+            url = request.POST.get('youtube_iframe'+str(i))
+            )
+            detail_lec.save()
+        print('DB에 저장이 완료되었습니다.')
+        return HttpResponse('DB에 저장이 완료되었습니다')
+    else:
+        return render(request,'class_upload.html')
+
+
+
+def class_view(request):
+    data = {}
+
+    user = User_info.objects.get(user_id='123')  #아이디 123 인 멘토
+    #아이디 123 인 멘토가 올린 강의를 모두 가져온다.
+
+    # 그 중 사람이 '데이터베이스' 라는 강의를 클릭하면 
+    temp_class_name = '데이터베이스'
+    lec = Lecture.objects.get(lecture_title='데이터베이스')
+    lecture_detail_list =  DetailLecture.objects.filter(lecture_title=lec).values()
+    print('쿼리로 찾은 데이터셋 ->',lecture_detail_list)
+    
+    url_list = []
+    title_list = []
+    data['test'] = lecture_detail_list
+    data['total_num'] = len(lecture_detail_list)
+    for lecture_detail in lecture_detail_list:
+        url_src = lecture_detail['url'].split(" ")[3]
+        temp_data = url_src[5:-1]
+        print(url_src[5:-1])
+        url_list.append(temp_data)
+        title_list.append(lecture_detail['video_title'])
+
+    data['url_list'] = url_list
+    data['title_list'] = title_list
+    #데이터베이스 의 세부 강의 DB에 접근해서 url 를 몽땅 가져온다.
+    return render(request,'class_list_page.html',data)
 
 
 # def dummy(request):

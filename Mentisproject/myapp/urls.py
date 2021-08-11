@@ -10,6 +10,9 @@ urlpatterns = [
     path('mypage/certification/',views.certification,name='certification'),
     path('mypage/certification/view/',views.profile,name='profile'),
     path('mypage/mylecture/',views.mylecture,name='mylecture'),
-    
+    path('mypage/class_upload',views.class_upload,name='class_upload'),
+
+    path('mypage/class_view',views.class_view,name='class_view'),
+
 
 ]

@@ -30,6 +30,14 @@
     <br>
     <a href="{% url 'mylecture' %}">내가 수강중인 강좌보기</a>
 
+    <!-- 일단 멘토라고 가정하고.  -->
+    <a href="{% url 'class_upload' %}">강의 업로드 하기</a>
+    <br><br>
+    <a href="{% url 'class_view' %}">업로드한 강의 보기</a>
 
+    {% if user.uesr_role == '멘토' %}
+    <p>당신은 {{user.user_role}}입니다.</p>
+    <a href="{% url 'class_upload' %}">강의 업로드 하기</a>
+    {% endif %}
 </body>
 </html>
