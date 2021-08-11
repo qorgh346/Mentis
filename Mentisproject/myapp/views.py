@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render,HttpResponse
 from .models import User_info,Menti_info,Cash
 from mentoringapp.models import FavouriteLecture,Mentor_info,LectureList
+from django.urls import reverse
 # Create your views here.
 
 def index(request):
@@ -31,7 +32,7 @@ def temp(request):
 def cash(request):
     data = {}
     #로그인 한 사용자를 가져오기
-    user_temp = request.session.get('temp') # 'tony346'
+    user_temp = request.session.get('temp') # 'tony'
     user = User_info.objects.get(user_id=user_temp) 
 
     if request.method == "POST":
@@ -81,6 +82,44 @@ def profile(request):
 
 def certification_create(request):
     pass
+
+def mypage_update(request):
+    if request.method == "POST": #변경 버튼을 눌렀을 때
+        #로그인 한 사용자를 가져오기
+        user_temp = request.session.get('temp') # 'tony346'
+        user = User_info.objects.get(user_id=user_temp)
+        
+        try:
+            # user.user_name = request.POST.get('name')
+            user.user_email = request.POST.get('email')
+            user.user_phone_number = request.POST.get('phoneNumber')
+            user.user_certification = request.FILES['image']
+        except:
+            return HttpResponse('폼 에러 입니다.')
+        user.save() #변경ㅋ
+    else:
+        return render(request,'myinfo_up.html')
+    return redirect(reverse('mypage'))
+    
+
+def mylecture(request): # My강의
+    data = {}
+    user_temp = request.session.get('temp') # 'tony'
+    print(user_temp)
+    user = User_info.objects.get(user_id=user_temp) 
+    print(user.pk)
+    menti = Menti_info.objects.get(user_info_id = user.pk)
+    print(menti.pk)
+    myLec = LectureList.objects.filter(user_id = menti.pk)
+    print(myLec)
+    
+    data['user'] = user
+    data['myLec'] = myLec
+
+    return render(request,"myclass.html",data)
+
+
+
 
 
 # def dummy(request):

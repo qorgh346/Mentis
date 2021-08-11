@@ -11,15 +11,24 @@
     마이페이지 입니다.!!    
     <p>이름 : {{user.user_name}}</p>
     <p>아이디 : {{user.user_id}}</p>
+    <p>이메일 : {{user.user_email}}</p>
+    <p>전화번호 : {{user.user_phone_number}}</p>
+    <p>당신은 {{user.user_role}}입니다.</p>
+    <p>인증여부는 {{user.user_certification_check}}되었습니다.</p>
+    <p>____________________</p>
     <p>즐겨찾기 강좌 입니다.</p>
     {% for i in favLec %}
     <p>{{i.lecture_title}}</p>
     {% endfor %}
+    <p>____________________</p>
    
-
+    <a href="{% url 'mypage_update' %}">내 정보 수정하기</a>
+    <br>
     <a href="{% url 'certification' %}">나의 인증서 관리</a>
     <br>
     <a href="{% url 'profile' %}">나의 인증서 보기</a>
+    <br>
+    <a href="{% url 'mylecture' %}">내가 수강중인 강좌보기</a>
 
 
 </body>
